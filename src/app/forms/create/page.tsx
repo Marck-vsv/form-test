@@ -13,18 +13,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
 import { formService } from '@/services/form-service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function CreateFormPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -35,18 +34,15 @@ export default function CreateFormPage() {
     onSuccess: (newForm) => {
       console.log('Formulário criado com sucesso:', newForm);
       queryClient.invalidateQueries({ queryKey: ['forms'] });
-      toast({
-        title: 'Formulário criado!',
+      toast.success('Formulário criado!', {
         description: `O formulário "${newForm.titulo}" foi criado com sucesso.`,
       });
       router.push(`/forms/${newForm.id}`);
     },
     onError: (err) => {
       console.error('Erro ao criar formulário:', err);
-      toast({
-        title: 'Erro ao criar formulário',
+      toast.error('Erro ao criar formulário', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -54,10 +50,8 @@ export default function CreateFormPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      toast({
-        title: 'Título obrigatório',
+      toast.error('Título obrigatório', {
         description: 'Por favor, insira um título para o formulário.',
-        variant: 'destructive',
       });
       return;
     }

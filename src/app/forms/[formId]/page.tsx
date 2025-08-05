@@ -29,7 +29,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
 import { formService } from '@/services/form-service';
 import { questionService } from '@/services/question-service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -37,12 +36,12 @@ import { ArrowLeft, Edit, Eye, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function FormDetailsPage() {
   const { formId } = useParams<{ formId: string }>();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const {
     data: form,
@@ -68,16 +67,13 @@ export default function FormDetailsPage() {
       formService.updateForm(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['form', formId] });
-      toast({
-        title: 'Formulário atualizado!',
+      toast.success('Formulário atualizado!', {
         description: 'As informações do formulário foram salvas.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao atualizar formulário',
+      toast.error('Erro ao atualizar formulário', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -86,16 +82,13 @@ export default function FormDetailsPage() {
     mutationFn: questionService.deleteQuestion,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['questions', formId] });
-      toast({
-        title: 'Pergunta excluída!',
+      toast.success('Pergunta excluída!', {
         description: 'A pergunta foi removida com sucesso.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao excluir pergunta',
+      toast.error('Erro ao excluir pergunta', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });

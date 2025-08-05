@@ -20,6 +20,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import type React from 'react';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function DynamicFormViewerPage() {
   const { formId } = useParams<{ formId: string }>();
@@ -117,7 +118,9 @@ export default function DynamicFormViewerPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Respostas do Formulário:', answers);
-    alert('Formulário submetido! Verifique o console para as respostas.');
+    toast.success('Formulário submetido!', {
+      description: 'Verifique o console para as respostas.',
+    });
   };
 
   if (

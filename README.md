@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dynamic Form Builder
 
-## Getting Started
+This project is a dynamic form builder and viewer application built with Next.js, React, and Tailwind CSS. It allows users to create, manage, and view custom forms with various question types, including conditional logic.
 
-First, run the development server:
+## Features
+
+- **Form Management**: Create, view, update, and delete forms.
+- **Question Management**: Add, edit, and remove questions within forms.
+- **Diverse Question Types**: Supports text input, numbers (integer and decimal), Yes/No, single-choice, and multiple-choice questions.
+- **Conditional Logic**: Define rules to show or hide questions based on previous answers.
+- **Mock Backend**: Uses a simple in-memory mock database for data persistence during development.
+- **Responsive UI**: Built with Tailwind CSS and Shadcn UI components for a modern and responsive user experience.
+
+## Technologies Used
+
+- **Next.js**: React framework for building web applications.
+- **React**: JavaScript library for building user interfaces.
+- **TypeScript**: Strongly typed superset of JavaScript.
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
+- **Shadcn UI**: Reusable UI components built with Tailwind CSS and Radix UI.
+- **TanStack Query (React Query)**: For data fetching, caching, and synchronization.
+- **Lucide React**: Icon library.
+- **pnpm**: Fast, disk space efficient package manager.
+
+## Installation
+
+To set up the project locally, follow these steps:
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/form-test.git
+    cd form-test
+    ```
+
+2.  **Install dependencies** using pnpm:
+    ```bash
+    pnpm install
+    ```
+
+## Running the Application
+
+To start the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application exposes the following API endpoints (mocked):
 
-## Learn More
+-   `/api/forms`: Manage forms (GET all, POST new).
+-   `/api/forms/[id]`: Get, update, or delete a specific form.
+-   `/api/forms/[formId]/questions`: Manage questions for a specific form (GET all, POST new).
+-   `/api/questions/[id]`: Get, update, or delete a specific question.
+-   `/api/questions/[questionId]/options`: Manage options for a specific question (GET all, POST new).
+-   `/api/options/[id]`: Get, update, or delete a specific option.
+-   `/api/conditionals`: Create new conditional rules.
+-   `/api/conditionals/[id]`: Get or delete a specific conditional rule.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   `src/app/`: Next.js application routes and API endpoints.
+    -   `api/`: Backend API routes.
+    -   `forms/`: Frontend pages for form management.
+    -   `questions/`: Frontend pages for question management.
+-   `src/components/`: Reusable React components, including Shadcn UI components.
+-   `src/data/mock-db.ts`: In-memory mock database for development.
+-   `src/services/`: Service layer for interacting with the API.
+-   `src/types/index.ts`: TypeScript type definitions.
+-   `src/lib/`: Utility functions and Axios instance.
+-   `src/hooks/`: Custom React hooks.

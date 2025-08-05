@@ -38,7 +38,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/sonner';
 import { questionService } from '@/services/question-service';
 import type { OpcaoResposta, PerguntaTipo } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -46,12 +45,12 @@ import { ArrowLeft, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function QuestionDetailsPage() {
   const { questionId } = useParams<{ questionId: string }>();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const {
     data: question,
@@ -113,16 +112,13 @@ export default function QuestionDetailsPage() {
     }) => questionService.updateQuestion(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['question', questionId] });
-      toast({
-        title: 'Pergunta atualizada!',
+      toast.success('Pergunta atualizada!', {
         description: 'As informações da pergunta foram salvas.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao atualizar pergunta',
+      toast.error('Erro ao atualizar pergunta', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -131,16 +127,13 @@ export default function QuestionDetailsPage() {
     mutationFn: questionService.createOption,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['options', questionId] });
-      toast({
-        title: 'Opção criada!',
+      toast.success('Opção criada!', {
         description: 'A nova opção de resposta foi adicionada.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao criar opção',
+      toast.error('Erro ao criar opção', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -150,16 +143,13 @@ export default function QuestionDetailsPage() {
       questionService.updateOption(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['options', questionId] });
-      toast({
-        title: 'Opção atualizada!',
+      toast.success('Opção atualizada!', {
         description: 'A opção de resposta foi salva.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao atualizar opção',
+      toast.error('Erro ao atualizar opção', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -169,16 +159,13 @@ export default function QuestionDetailsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['options', questionId] });
       queryClient.invalidateQueries({ queryKey: ['conditionals'] });
-      toast({
-        title: 'Opção excluída!',
+      toast.success('Opção excluída!', {
         description: 'A opção de resposta foi removida.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao excluir opção',
+      toast.error('Erro ao excluir opção', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -187,16 +174,13 @@ export default function QuestionDetailsPage() {
     mutationFn: questionService.createConditional,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['conditionals', questionId] });
-      toast({
-        title: 'Condicional criada!',
+      toast.success('Condicional criada!', {
         description: 'A nova regra condicional foi adicionada.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao criar condicional',
+      toast.error('Erro ao criar condicional', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -205,16 +189,13 @@ export default function QuestionDetailsPage() {
     mutationFn: questionService.deleteConditional,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['conditionals', questionId] });
-      toast({
-        title: 'Condicional excluída!',
+      toast.success('Condicional excluída!', {
         description: 'A regra condicional foi removida.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao excluir condicional',
+      toast.error('Erro ao excluir condicional', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
@@ -266,11 +247,9 @@ export default function QuestionDetailsPage() {
       setNewConditionalOptionId(null);
       setNewConditionalQuestionId(null);
     } else {
-      toast({
-        title: 'Selecione opção e pergunta',
+      toast.error('Selecione opção e pergunta', {
         description:
           'Por favor, selecione uma opção e uma pergunta para criar a condicional.',
-        variant: 'destructive',
       });
     }
   };

@@ -27,15 +27,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
 import { formService } from '@/services/form-service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Edit, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function FormsPage() {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   const {
     data: forms,
@@ -50,16 +49,13 @@ export default function FormsPage() {
     mutationFn: formService.deleteForm,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['forms'] });
-      toast({
-        title: 'Formulário excluído!',
+      toast.success('Formulário excluído!', {
         description: 'O formulário foi removido com sucesso.',
       });
     },
     onError: (err) => {
-      toast({
-        title: 'Erro ao excluir formulário',
+      toast.error('Erro ao excluir formulário', {
         description: err.message || 'Ocorreu um erro inesperado.',
-        variant: 'destructive',
       });
     },
   });
