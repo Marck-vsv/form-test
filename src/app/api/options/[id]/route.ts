@@ -1,4 +1,4 @@
-import { getMockDb } from '@/data/mock-db'; // Importar getMockDb diretamente
+import { getMockDb } from '@/data/mock-db';
 import { questionService } from '@/services/question-service';
 import type { OpcaoResposta } from '@/types';
 import { NextResponse } from 'next/server';
